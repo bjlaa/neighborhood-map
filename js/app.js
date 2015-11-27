@@ -58,8 +58,7 @@ var googleMap = {
 
 //---------- PLACE OBJECT --------
 
-var Place = function(data, viewmodel
-	) {
+var Place = function(data, viewmodel) {
 	var self = this;
 	this.name = ko.observable(data.name);
 	this.tags = ko.observableArray(data.tags);
@@ -74,9 +73,8 @@ var Place = function(data, viewmodel
 
 	// click handler the markers
 	google.maps.event.addListener(marker, 'click', function() {
-			viewmodel.showPlace(self);
-		});
-	google.maps.Animation.DROP;
+		viewmodel.showPlace(self);
+	});
 	this.marker = marker;
 };
 
@@ -116,7 +114,7 @@ var ViewModel = function() {
 				// if current tag is not already a filter, add to self.filters
 				if (tempTagArr.indexOf(tag) < 0) {
 					tempTagArr.push(tag);
-				}
+				};
 			});// end tag loop
 		});// end place loop
 
@@ -171,13 +169,13 @@ var ViewModel = function() {
 				returnPlaces = ko.utils.arrayFilter(tempPlaces(), function(place) {
 		        	return place.name().toLowerCase().indexOf(tempSearchFilter) !== -1;
 		        });
-			}
+			};
 
 			// hide/show correct markers based on list of current places
 			self.filterMarkers(returnPlaces);
 			return returnPlaces;
-
 		});
+
 		// if no markers have been shown, show them
 		if (!self.hasMarkers) self.showMarkers();
 		self.initialized = true;
@@ -189,7 +187,7 @@ var ViewModel = function() {
 				return element.toLowerCase().match(/\.(png|jpg|jpeg|gif)$/);
 			}).first();
 			return result.length > 0 ? result[0] : null;
-		}
+		};
 		var getFirstImage = function(title, callback) {
 	        $.ajax({
 	        	type: "GET",
@@ -201,8 +199,6 @@ var ViewModel = function() {
 	                if (image){
 	                	callback(image);
 	                }
-
-
 	            },
 	            error: function(){
 	            	wikiLink = '<p>Failed to get wikipedia ressources.</p>';
@@ -255,13 +251,12 @@ var ViewModel = function() {
 
 		var wikiLink;
 
-
         getFirstImage(place.label, function(name) {
 	        getImageUrl(name, function(url) {
 	            wikiLink = "<image class = 'info-image'src=\"" + url + "\"/>"
 	            googleMap.infoWindow.setContent(googleMap.infoWindowContent.replace('%title%', place.name()).replace('%link%', wikiLink));
 		    	googleMap.infoWindow.open(googleMap.map, place.marker);
-	            })
+	            });
 	        });
 
 		// makes new marker Bounce when selected
@@ -280,7 +275,6 @@ var ViewModel = function() {
 		ko.utils.arrayForEach(self.placeList(), function(place){
 			place.marker.setMap(googleMap.map);
 		});
-
 		self.hasMarkers = true;
 	};
 };
