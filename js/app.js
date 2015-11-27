@@ -1,5 +1,3 @@
-"use strict";
-
 // --------- MODEL ---------
 // all the data used to place the markers
 var places = [
@@ -44,13 +42,13 @@ var places = [
 
 var googleMap = {
 	map: {},
-	infoWindow: new google.maps.InfoWindow(), // reusable info window
+	infoWindow: new google.maps.InfoWindow({maxWidth: 150}), // reusable info window
 	options: {
 		center: { lat: 52.522650, lng: 13.413215},
 		zoom: 13,
 		mapTypeId: google.maps.MapTypeId.HYBRID
 	},
-	infoWindowContent: '<div class="info-window"><div class="window-title">%title%</div><div>%link%</div></div>' ,
+	infoWindowContent: '<div class="info-window"><div class="window-title">%title%</div><div style={float: right}>%link%</div></div>' ,
 	init: function(vm) {
 		googleMap.map = new google.maps.Map(document.getElementById('map'), googleMap.options);
 		// show markers in time with the map loaded
