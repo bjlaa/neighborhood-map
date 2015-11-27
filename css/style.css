@@ -1,0 +1,169 @@
+*{
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+html, body{
+	width: 100%;
+	height: 100%;
+	background-color:  #F0FFF0;
+}
+
+body{
+	font-family: Arial;
+	font-weight: 250;
+	color: #333;
+	margin-bottom: 30px;
+}
+
+/*----- control bar -----*/
+
+#control-bar{
+	background-color: #708090;
+	width:  100%;
+	padding: 10px;
+	min-height: 55px;
+	position: relative;
+}
+
+#search {
+    position: absolute;
+    top: 10px;
+    right: 40%;
+    z-index: 999;
+    width: 20%;
+}
+
+.search-bar {
+    padding: 10px;
+    border: none;
+    border-radius: 11px;
+    width: 100%;
+}
+
+input:focus{
+    outline: 0;
+}
+
+
+
+main{
+	width: 100%;
+	position: relative;
+	height: 100%;
+}
+
+
+#map{
+	background-color: #F0FFF0;
+	float: right;
+	width: 70%;
+	height: 96%;
+}
+
+#places{
+	background-color: #F0FFF0;
+	height: 100%;
+	width: 30%;
+	float: left;
+	border-left: 1px solid grey;
+}
+
+#place-list {
+    height: 100%;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.place-title {
+    font-size: 1.2em;
+}
+
+.place-element {
+    list-style: none;
+    padding: 10px 5px;
+    border-bottom: 1px solid grey;
+    background-color: #F0FFF0;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100%;
+}
+
+/*----- style for the info window -----*/
+
+.info {
+    width: 100%;
+    background-size: cover;
+    color: #F0FFF0;
+}
+
+.info:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+}
+
+.info-image {
+	width: 15%;
+	height: 15%;
+}
+
+/* media queries */
+
+@media(min-width: 1024px) {
+	main {
+		height: 98%;
+	}
+
+	#places {
+		width: 20%;
+	}
+
+	#map {
+		width: 80%;
+	}
+}
+
+
+
+@media(max-width: 699px) {
+	#search {
+	    position: relative;
+	    top: inherit;
+	    right: inherit;
+	}
+
+	.search-input {
+	    width: 100%;
+	}
+}
+
+@media(max-width: 599px) {
+	#places {
+	    float: none;
+	    width: 100%;
+	    height: auto;
+	}
+
+	#place-list {
+	    height: auto;
+	    max-height: 280px;
+	    border-bottom: 1px solid grey;
+	}
+
+	#map {
+	    float: none;
+	    width: 100%;
+	    height: 320px;
+	}
+
+	main {
+	    height: auto;
+	}
+}
