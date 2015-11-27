@@ -1,6 +1,6 @@
 "use strict";
 
-// --------- MODEL ---------    
+// --------- MODEL ---------
 // all the data used to place the markers
 var places = [
 	{
@@ -12,35 +12,35 @@ var places = [
 	},
 	{
 		name: 'Pergamonmuseum',
-		lat: 52.522558, 
+		lat: 52.522558,
 		lng: 13.396349,
 		label : 'Pergamon Museum',
 		tags: ['Pergamonmuseum'],
 	},
 	{
 		name: 'Alexanderplatz',
-		lat: 52.522506, 
+		lat: 52.522506,
 		lng: 13.410940,
 		label : 'Alexanderplatz',
 		tags: ['Alexanderplatz']
 	},
 	{
 		name: 'Mustafas Gemüse Döner',
-		lat: 52.510291, 
+		lat: 52.510291,
 		lng: 13.451059,
 		label : 'Doner kebab',
 		tags: ['Döner '],
 	},
 	{
 		name: 'Zoo Berlin',
-		lat: 52.509474, 
+		lat: 52.509474,
 		lng: 13.337794,
 		label : 'Berlin Zoological Garden',
 		tags: ['Zoo Berlin'],
 	}
 ];
 
-// --------- GOOGLE MAPS -------- 
+// --------- GOOGLE MAPS --------
 
 var googleMap = {
 	map: {},
@@ -82,7 +82,7 @@ var Place = function(data, viewmodel
 	this.marker = marker;
 };
 
-// --------- FILTER OBJECT -------    
+// --------- FILTER OBJECT -------
 
 var Filter = function(data) {
 	this.name = ko.observable(data.name);
@@ -90,7 +90,7 @@ var Filter = function(data) {
 };
 
 
-//-------- VIEW MODEL ----------  
+//-------- VIEW MODEL ----------
 
 var ViewModel = function() {
 	var self = this;
@@ -203,8 +203,8 @@ var ViewModel = function() {
 	                if (image){
 	                	callback(image);
 	                }
-	                
-	            
+
+
 	            },
 	            error: function(){
 	            	wikiLink = '<p>Failed to get wikipedia ressources.</p>';
@@ -217,11 +217,11 @@ var ViewModel = function() {
         var getImageUrl = function(name, callback) {
 	        $.ajax({
 	            type: "GET",
-	            url: "https://en.wikipedia.org/w/api.php?action=query&format=json&titles=Image:"+name+"&prop=imageinfo&iiprop=url&callback=?",
+	            url: "https://en.wikipedia.org/w/api.php?action=query&format=json&titles=Image:"+name+"&prop=imageinfo&iiprop=url&iiurlwidth=512&callback=?",
 	            contentType: "application/json; charset=utf-8",
 	            dataType: "json",
 	            success: function (data, textStatus, jqXHR) {
-	                var url = data.query.pages["-1"].imageinfo[0].url;
+	                var url = data.query.pages["-1"].imageinfo[0].thumburl;
 	                callback(url);
 	            },
 	            error: function(){
@@ -256,7 +256,7 @@ var ViewModel = function() {
 		// set info window content and show it
 
 		var wikiLink;
-		
+
 
         getFirstImage(place.label, function(name) {
 	        getImageUrl(name, function(url) {
@@ -268,7 +268,7 @@ var ViewModel = function() {
 
 		// makes new marker Bounce when selected
 		place.marker.setAnimation(google.maps.Animation.BOUNCE);
-		
+
 		setTimeout(function(){
 			place.marker.setAnimation(null);
 		}, 2100);
@@ -288,7 +288,7 @@ var ViewModel = function() {
 };
 
 
-//---------- SETUP ----------           
+//---------- SETUP ----------
 
 // empty view model
 var vm = new ViewModel();
