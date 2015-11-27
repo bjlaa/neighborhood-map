@@ -286,7 +286,7 @@ var ViewModel = function() {
 var vm = new ViewModel();
 
 // listener for view model initialization
-$( document ).ready(function() {
+var domReady = function(){
 	vm.init();
 	ko.applyBindings(vm);
 
@@ -295,6 +295,25 @@ $( document ).ready(function() {
 		google.maps.event.trigger(googleMap.map, 'resize');
 		googleMap.map.setCenter(googleMap.options.center);
 	});
-});
+};
+
+// used in case of Mozilla, Opera, Webkit 
+if ( document.addEventListener ) {
+  document.addEventListener( "DOMContentLoaded", function(){
+    document.removeEventListener( "DOMContentLoaded", arguments.callee, false);
+    domReady();
+  }, false );
+
+// for the IE event model 
+} else if ( document.attachEvent ) {
+  // ensure firing before onload
+  document.attachEvent("onreadystatechange", function(){
+    if ( document.readyState === "complete" ) {
+      document.detachEvent( "onreadystatechange", arguments.callee );
+      domReady();
+    }
+  });
+};
+
 // listener for google map initialization
 google.maps.event.addDomListener(window, 'load', googleMap.init(vm));
