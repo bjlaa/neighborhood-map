@@ -1,4 +1,4 @@
-'use strict';
+
 // --------- MODEL ---------
 // all the data used to place the markers
 var places = [
@@ -51,9 +51,13 @@ var googleMap = {
 	},
 	infoWindowContent: '<div class="info-window"><div class="window-title">%title%</div><div style={float: right}>%link%</div></div>' ,
 	init: function(vm) {
-		googleMap.map = new google.maps.Map(document.getElementById('map'), googleMap.options);
-		// show markers in time with the map loaded
-		if (vm.initialized && !vm.hasMarkers) vm.showMarkers();
+		if (typeof(google) !== 'undefined'){
+			googleMap.map = new google.maps.Map(document.getElementById('map'), googleMap.options);
+			// show markers in time with the map loaded
+			if (vm.initialized && !vm.hasMarkers) vm.showMarkers();
+		} else {
+			alert("Failed to load Google map, please reload.");
+		}
 	}
 };
 
@@ -70,6 +74,7 @@ var Place = function(data, viewmodel) {
 	// google maps marker
 	var marker = new google.maps.Marker({
 		position: new google.maps.LatLng(data.lat, data.lng),
+		animation: google.maps.Animation.DROP
 	});
 
 	// click handler the markers
@@ -184,11 +189,11 @@ var ViewModel = function() {
 
 	//---------- FUNCTIONS --------
 	var findFirstImage = function(images){
-			var result = $(images).filter(function(index, element){
-				return element.toLowerCase().match(/\.(png|jpg|jpeg|gif)$/);
+		var result = $(images).filter(function(index, element){
+			return element.toLowerCase().match(/\.(png|jpg|jpeg|gif)$/);
 			}).first();
-			return result.length > 0 ? result[0] : null;
-		};
+		return result.length > 0 ? result[0] : null;
+	};
 		var getFirstImage = function(title, callback) {
 	        $.ajax({
 	        	type: "GET",
@@ -202,9 +207,7 @@ var ViewModel = function() {
 	                }
 	            },
 	            error: function(){
-	            	wikiLink = '<p>Failed to get wikipedia ressources.</p>';
-		    		googleMap.infoWindow.setContent(googleMap.infoWindowContent.replace('%title%', place.name()).replace('%link%', wikiLink));
-		    		googleMap.infoWindow.open(googleMap.map, place.marker);
+	            	alert("Failed to load Image please reload the page.");
 	            }
 	        });
 	    };
@@ -220,9 +223,7 @@ var ViewModel = function() {
 	                callback(url);
 	            },
 	            error: function(){
-	            	wikiLink = '<p>Failed to get wikipedia ressources.</p>';
-		    		googleMap.infoWindow.setContent(googleMap.infoWindowContent.replace('%title%', place.name()).replace('%link%', wikiLink));
-		    		googleMap.infoWindow.open(googleMap.map, place.marker);
+	            	alert("Failed to load URL please reload the page.");
 	            }
 	        });
 	    };
@@ -260,7 +261,7 @@ var ViewModel = function() {
 	            });
 	        });
 
-		// makes new marker Bounce when selected
+		// makes marker Bounce when selected
 		place.marker.setAnimation(google.maps.Animation.BOUNCE);
 
 		setTimeout(function(){
@@ -288,33 +289,44 @@ var vm = new ViewModel();
 
 // listener for view model initialization
 var domReady = function(){
-	vm.init();
-	ko.applyBindings(vm);
+	if (typeof(google) !== 'undefined'){
+		// listener for google map initialization
+		google.maps.event.addDomListener(window, 'load', googleMap.init(vm));
+		vm.init();
+		ko.applyBindings(vm);
 
-	// resize map and reset center when window size changes
-	$(window).on('resize', function() {
-		google.maps.event.trigger(googleMap.map, 'resize');
-		googleMap.map.setCenter(googleMap.options.center);
-	});
+		// resize map and reset center when window size changes
+		$(window).on('resize', function() {
+			google.maps.event.trigger(googleMap.map, 'resize');
+			googleMap.map.setCenter(googleMap.options.center);
+		});
+		
+	} else {
+		alert("Failed to load Google Maps, please reload the page.");
+	}
+	
 };
 
 // used in case of Mozilla, Opera, Webkit 
 if ( document.addEventListener ) {
-  document.addEventListener( "DOMContentLoaded", function(){
-    document.removeEventListener( "DOMContentLoaded", arguments.callee, false);
-    domReady();
-  }, false );
+	document.addEventListener( "DOMContentLoaded", function(){
+    	document.removeEventListener( "DOMContentLoaded", arguments.callee, false);
+    	//setTimeout(function(){
+			domReady();
+		//}, 100);    
+}, false );
 
 // for the IE event model 
 } else if ( document.attachEvent ) {
-  // ensure firing before onload
-  document.attachEvent("onreadystatechange", function(){
-    if ( document.readyState === "complete" ) {
-      document.detachEvent( "onreadystatechange", arguments.callee );
-      domReady();
-    }
-  })
+	// ensure firing before onload
+	document.attachEvent("onreadystatechange", function(){
+    	if ( document.readyState === "complete" ) {
+    		document.detachEvent( "onreadystatechange", arguments.callee );
+    		//setTimeout(function(){
+				domReady();
+			//}, 100);
+    	}
+  	})
 };
 
-// listener for google map initialization
-google.maps.event.addDomListener(window, 'load', googleMap.init(vm));
+
