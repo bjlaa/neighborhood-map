@@ -1,3 +1,4 @@
+'use strict';
 // --------- MODEL ---------
 // all the data used to place the markers
 var places = [
@@ -114,7 +115,7 @@ var ViewModel = function() {
 				// if current tag is not already a filter, add to self.filters
 				if (tempTagArr.indexOf(tag) < 0) {
 					tempTagArr.push(tag);
-				};
+				}
 			});// end tag loop
 		});// end place loop
 
@@ -168,7 +169,7 @@ var ViewModel = function() {
 			else{
 				returnPlaces = ko.utils.arrayFilter(tempPlaces(), function(place) {
 		        	return place.name().toLowerCase().indexOf(tempSearchFilter) !== -1;
-		        });
+		        })
 			};
 
 			// hide/show correct markers based on list of current places
@@ -253,7 +254,7 @@ var ViewModel = function() {
 
         getFirstImage(place.label, function(name) {
 	        getImageUrl(name, function(url) {
-	            wikiLink = "<image class = 'info-image'src=\"" + url + "\"/>"
+	            wikiLink = "<image class = 'info-image'src=\"" + url + "\"/>";
 	            googleMap.infoWindow.setContent(googleMap.infoWindowContent.replace('%title%', place.name()).replace('%link%', wikiLink));
 		    	googleMap.infoWindow.open(googleMap.map, place.marker);
 	            });
@@ -312,7 +313,7 @@ if ( document.addEventListener ) {
       document.detachEvent( "onreadystatechange", arguments.callee );
       domReady();
     }
-  });
+  })
 };
 
 // listener for google map initialization
