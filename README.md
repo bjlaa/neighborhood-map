@@ -1,13 +1,11 @@
-Project 5: Neighbourhood Map // Front-End Web Developper 
-(UDACITY NANODEGREE):
+# Neighborhood Map
 
-This project presents a map of my town, Berlin, with a list of some of my favourite places.
+This project is a single-page web application, built using the Knockout framework, that displays a Google Map of an area and various points of interest. Users can search all included landmarks and, when selected, additional information about a landmark is presented from the FourSquare and Wikipedia APIs. presents a map of my town, Berlin, with a list of some of my favourite places.
 
-- to select a place click on the location on the list or click on the marker chosen on the map
+In order to access it in your browser:
 
-- to search for a place in the list, type in the name of the location searched in the search bar on the top right
+* click in the following link redirecting to my [Github Pages](http://bjlaa.github.io/neighborhood-map) page for this project
 
-- when a marker is selected (by clicking on it in the list or on the map) an info window opens with its title and a picture of the location
+or
 
-
-This project has been made by combining the Google Maps API and the Wikipedia API (to retrieve the images).
+* download the zip file of my project on your computer and open index.html in your favorite browser
